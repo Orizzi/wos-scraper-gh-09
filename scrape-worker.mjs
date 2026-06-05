@@ -5,6 +5,7 @@
  */
 
 import https from 'https';
+import http from 'http';
 import crypto from 'crypto';
 import { writeFileSync } from 'fs';
 
@@ -97,7 +98,7 @@ async function getBatch() {
       timeout: 10000
     };
 
-    const req = https.request(options, (res) => {
+    const req = http.request(options, (res) => {
       let data = '';
       res.on('data', chunk => data += chunk);
       res.on('end', () => {
@@ -154,7 +155,7 @@ async function sendResults(results) {
       timeout: 10000
     };
 
-    const req = https.request(options, (res) => {
+    const req = http.request(options, (res) => {
       let body = '';
       res.on('data', chunk => body += chunk);
       res.on('end', () => {
