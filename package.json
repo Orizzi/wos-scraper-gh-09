@@ -1,0 +1,13 @@
+{
+  "name": "wos-scraper-gh-worker",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "WOS Player Scraper - GitHub Actions Worker",
+  "main": "scrape-worker.mjs",
+  "scripts": {
+    "start": "node scrape-worker.mjs"
+  },
+  "keywords": ["wos", "scraper", "github-actions"],
+  "author": "Orizzi",
+  "license": "MIT"
+}

@@ -1,0 +1,44 @@
+name: WOS Scraper Worker
+
+on:
+  schedule:
+    # Toutes les 5 minutes (max fréquence GitHub Actions)
+    - cron: '*/5 * * * *'
+
+  # Permettre déclenchement manuel
+  workflow_dispatch:
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+
+    # 20 workers parallèles
+    strategy:
+      matrix:
+        worker: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+      # Ne pas annuler les autres workers si un échoue
+      fail-fast: false
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run scraper worker
+        env:
+          OVH_SERVER: '57.129.123.224:4242'
+        run: |
+          echo "🚀 Worker ${{ matrix.worker }} démarré"
+          node scrape-worker.mjs gh-worker-${{ matrix.worker }}
+
+      - name: Upload results (si succès)
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: results-worker-${{ matrix.worker }}
+          path: results.json
+          retention-days: 1
