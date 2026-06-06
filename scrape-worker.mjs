@@ -150,7 +150,7 @@ async function sendResults(results) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Content-Length': data.length
+        'Content-Length': Buffer.byteLength(data, 'utf8')
       },
       timeout: 10000
     };
